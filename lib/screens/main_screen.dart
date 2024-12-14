@@ -18,6 +18,12 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('톡톡 소통해요'),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/write');
+              },
+              icon: const Icon(Icons.create),
+            ),
           ],
         ),
         leading: Builder(
@@ -33,7 +39,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: Column(
         children: [
-          // 검색 영역
           Container(
             color: Colors.pinkAccent,
             child: Padding(
