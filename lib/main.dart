@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:talk_talk/screens/main_screen.dart';
-import 'package:talk_talk/screens/write_screen.dart';
+import 'package:talk_talk/screens/post_create_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MainScreen(),
-        '/write': (context) => WriteScreen(),
+        '/write': (context) => PostCreateScreen(),
       },
     );
   }

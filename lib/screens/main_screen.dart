@@ -45,13 +45,16 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 color: Colors.white,
-                child: const Row(
+                child: Row(
                   children: [
                     Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: '제목/카테고리/내용/작성자',
-                          suffixIcon: Icon(Icons.search),
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            hintText: '제목/카테고리/내용/작성자',
+                            suffixIcon: Icon(Icons.search),
+                          ),
                         ),
                       ),
                     ),
