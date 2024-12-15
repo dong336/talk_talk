@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:talk_talk/model/post_simple.dart';
 
 class MainPost extends StatelessWidget {
+  final PostSimple postSimple;
 
   const MainPost({
     super.key,
+    required this.postSimple,
   });
 
   @override
@@ -17,32 +20,32 @@ class MainPost extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.all(8.0),
-        title: const Text(
-          'Flutter 기본 화면 구성',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          postSimple.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: const Column(
+        subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '카테고리: Flutter',
-                  style: TextStyle(fontSize: 14.0),
+                  '카테고리: ${postSimple.category}',
+                  style: const TextStyle(fontSize: 14.0),
                 ),
                 Text(
-                  '2024-12-14 09:07:55',
-                  style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                  postSimple.createdAt,
+                  style: const TextStyle(color: Colors.grey, fontSize: 12.0),
                 ),
               ],
             ),
-            SizedBox(height: 4.0), // 간격 추가
+            const SizedBox(height: 4.0), // 간격 추가
           ],
         ),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          print('게시물 클릭: Flutter 기본 화면 구성');
+          Navigator.pushNamed(context, '/post/detail');
         },
       ),
     );

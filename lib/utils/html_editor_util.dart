@@ -18,7 +18,7 @@ class HtmlEditorUtil extends StatefulWidget {
 class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
   late final AppBar _appBar;
   final ImagePicker _imagePicker = ImagePicker();
-  final HtmlEditorController controller = HtmlEditorController();
+  final HtmlEditorController _controller = HtmlEditorController();
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
     return GestureDetector(
       onTap: () {
         if (!kIsWeb) {
-          controller.clearFocus();
+          _controller.clearFocus();
         }
       },
       child: Scaffold(
@@ -40,8 +40,23 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(5),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: '제목',
+                        ),
+                        enabled: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               HtmlEditor(
-                controller: controller,
+                controller: _controller,
                 htmlEditorOptions: const HtmlEditorOptions(
                   hint: '내용을 입력 하세요...',
                   shouldEnsureVisible: true,
@@ -91,7 +106,10 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
                     onChangeSelection: (EditorSettings settings) {},
                     onDialogShown: () {},
                     onEnter: () {},
-                    onFocus: () {},
+                    onFocus: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      _controller.setFocus();
+                    },
                     onBlur: () {},
                     onBlurCodeview: () {},
                     onInit: () {},
@@ -136,7 +154,7 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
       final bytes = await image.readAsBytes();
       final base64Data = base64Encode(bytes);
 
-      controller.insertHtml(
+      _controller.insertHtml(
           "<img width='40%' src='data:image/$extension;base64,$base64Data'/>");
 
       return true;

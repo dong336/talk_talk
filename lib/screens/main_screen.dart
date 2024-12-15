@@ -1,9 +1,10 @@
-import 'dart:convert';
+import 'dart:convert' as convert;
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:talk_talk/components/main_post.dart';
+import 'package:talk_talk/model/post_simple.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,6 +14,19 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<PostSimple> postList = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,43 +54,45 @@ class _MainScreenState extends State<MainScreen> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.pinkAccent,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            hintText: '제목/카테고리/내용/작성자',
-                            suffixIcon: Icon(Icons.search),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Container(
+                  color: Colors.pinkAccent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              child: const TextField(
+                                decoration: InputDecoration(
+                                  hintText: '제목/카테고리/내용/작성자',
+                                  suffixIcon: Icon(Icons.search),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                MainPost(),
-                MainPost(),
-                MainPost(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: postList.length,
+                    itemBuilder: (context, index) {
+                      final postSimple = postList[index];
+                      return MainPost(postSimple: postSimple);
+                    },
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -124,5 +140,18 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _fetchData() async {
+    var url = Uri.https(
+        '70d160d4-2ab4-492a-a788-2a73509ff825.mock.pstmn.io', '/post/list/all');
+    http.Response response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List jsonData = convert.jsonDecode(response.body);
+      postList = jsonData.map((data) => PostSimple.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 }
