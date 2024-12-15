@@ -7,18 +7,24 @@ import 'package:image_picker/image_picker.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
 class HtmlEditorUtil extends StatefulWidget {
-  final String title;
+  const HtmlEditorUtil({super.key, required this.appBar});
 
-  const HtmlEditorUtil({super.key, required this.title});
+  final AppBar appBar;
 
   @override
-  State<HtmlEditorUtil> createState() => _HtmlEditorUtilState();
+  _HtmlEditorUtilState createState() => _HtmlEditorUtilState();
 }
 
 class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
-  String result = '';
+  late final AppBar _appBar;
   final ImagePicker _imagePicker = ImagePicker();
   final HtmlEditorController controller = HtmlEditorController();
+
+  @override
+  void initState() {
+    super.initState();
+    _appBar = widget.appBar;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +35,7 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          elevation: 0,
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.refresh),
-                onPressed: () {
-                  if (kIsWeb) {
-                    controller.reloadWeb();
-                  } else {
-                    controller.editorController!.reload();
-                  }
-                })
-          ],
-        ),
+        appBar: _appBar,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +83,7 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
                     return true;
                   },
                 ),
-                otherOptions: const OtherOptions(height: double.infinity),
+                otherOptions: const OtherOptions(height: 1500),
                 callbacks: Callbacks(
                     onBeforeCommand: (String? currentHtml) {},
                     onChangeContent: (String? changed) {},
@@ -145,7 +137,7 @@ class _HtmlEditorUtilState extends State<HtmlEditorUtil> {
       final base64Data = base64Encode(bytes);
 
       controller.insertHtml(
-          "<img width='40%' src='data:image/$extension;base64,$base64Data' alt=''/>");
+          "<img width='40%' src='data:image/$extension;base64,$base64Data'/>");
 
       return true;
     }
