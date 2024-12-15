@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:rtf_textfield/rtf_textfield.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:talk_talk/utils/html_editor_util.dart';
 
 class PostCreateScreen extends StatefulWidget {
   const PostCreateScreen({super.key});
@@ -12,7 +13,7 @@ class PostCreateScreen extends StatefulWidget {
 }
 
 class _PostCreateScreenState extends State<PostCreateScreen> {
-  final RTFTextFieldController _rtfController = RTFTextFieldController();
+  final TextEditingController _textEditingController = TextEditingController();
   final ImagePicker _imagePicker = ImagePicker();
   File? _image;
 
@@ -62,11 +63,11 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
           ),
           Container(
             padding: EdgeInsets.all(5),
-            child: RTFTextField(
+            child: TextField(
               onTapOutside: (event) {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
-              decoration: const RichInputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                 ),
@@ -76,22 +77,9 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                 ),
-                labelTextSpan: TextSpan(
-                  text: '내용을 입력하세요',
-                  children: [
-                    TextSpan(
-                      text: ' *',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-                hintTextSpan: TextSpan(
-                  text: '내용',
-                ),
+                hintText: '내용',
               ),
-              controller: _rtfController,
+              controller: _textEditingController,
             ),
           ),
         ],
