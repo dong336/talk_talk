@@ -13,10 +13,10 @@ class PostSimple {
 
   factory PostSimple.fromJson(Map<String, dynamic> json) {
     return PostSimple(
-        id: json['id'],
-        title: json['title'],
-        category: json['category'],
-        createdAt: json['created_at'],
+      id: json['id'],
+      title: json['title'],
+      category: json['category'],
+      createdAt: json['created_at'],
     );
   }
 }

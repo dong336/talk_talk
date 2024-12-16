@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import 'package:talk_talk/utils/constants.dart' as constants;
 import 'package:talk_talk/components/main_post.dart';
 import 'package:talk_talk/model/post_simple.dart';
 
@@ -143,8 +144,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _fetchData() async {
-    var url = Uri.https(
-        '70d160d4-2ab4-492a-a788-2a73509ff825.mock.pstmn.io', '/post/list/all');
+    var url = Uri.parse('${constants.url}/post/list/all');
     http.Response response = await http.get(url);
 
     if (response.statusCode == 200) {
