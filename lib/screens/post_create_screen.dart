@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:talk_talk/components/custom_text_field.dart';
 
 class PostCreateScreen extends StatefulWidget {
   const PostCreateScreen({super.key});
@@ -11,9 +12,18 @@ class PostCreateScreen extends StatefulWidget {
 }
 
 class _PostCreateScreenState extends State<PostCreateScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
+  List<Widget> dynamicWidgets = [
+    CustomTextField(),
+  ];
+  List<TextEditingController> controllers = [];
   final ImagePicker _imagePicker = ImagePicker();
-  File? _image;
+  File? _imageFile;
+  Image? _imageWidget;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,44 +53,32 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            child: const Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
               children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: '제목',
-                    ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: '제목',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                Column(
+                  children: dynamicWidgets.map((item) => item).toList(),
                 ),
               ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(5),
-            child: TextField(
-              onTapOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                ),
-                hintText: '내용',
-              ),
-              controller: _textEditingController,
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -92,12 +90,55 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   }
 
   Future<void> _pickAndInsertImage() async {
-    final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? image =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        _image = File(image.path);
+        _imageFile = File(image.path);
         print(image.name);
+
+        final index = dynamicWidgets.length;
+
+        dynamicWidgets.add(
+          Center(
+            child: Stack(children: [
+              Image.file(
+                _imageFile!,
+                fit: BoxFit.fill,
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                    onPressed: () => _removeItem(index),
+                    icon: const Icon(Icons.close, color: Colors.red)),
+              )
+            ]),
+          ),
+        );
+        dynamicWidgets = removeEmptyTextFields(dynamicWidgets);
+        dynamicWidgets.add(
+          CustomTextField(),
+        );
       });
     }
   }
+
+  void _removeItem(int index) {
+    setState(() {
+      dynamicWidgets.removeAt(index);
+    });
+  }
+
+  List<Widget> removeEmptyTextFields(List<Widget> dynamicWidgets) {
+    dynamicWidgets = dynamicWidgets.where((widget) {
+      if (widget is CustomTextField) {
+        return widget.textEditingController?.text.isNotEmpty ?? false;
+      }
+      return true;
+    }).toList();
+
+    return dynamicWidgets;
+  }
+
 }
