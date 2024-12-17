@@ -109,33 +109,35 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 4.0), // 간격
-              child: ListTile(
-                title: Text('Option 1'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle Option 1 Click
-                },
+              margin: const EdgeInsets.all(9.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () {},
+                child: ListTile(
+                  title: const Text('구글 로그인'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle Option 1 Click
+                  },
+                ),
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 4.0), // 간격
-              child: ListTile(
-                title: Text('Option 2'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle Option 1 Click
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 4.0), // 간격
-              child: ListTile(
-                title: Text('Option 3'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle Option 1 Click
-                },
+              margin: const EdgeInsets.all(9.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () {},
+                child: ListTile(
+                  title: const Text('카카오 로그인'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Handle Option 1 Click
+                  },
+                ),
               ),
             ),
           ],
