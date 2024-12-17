@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController textEditingController = TextEditingController();
@@ -7,25 +8,37 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      maxLines: null,
-      onTapOutside: (event) {
-        FocusManager.instance.primaryFocus?.unfocus();
+    return KeyboardListener(
+      focusNode: FocusNode(),
+      onKeyEvent: (event) {
+        _handleKeyPress(event);
       },
-      decoration: const InputDecoration(
-        enabledBorder: InputBorder.none,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.grey,
+      child: TextField(
+        maxLines: null,
+        decoration: const InputDecoration(
+          enabledBorder: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.grey,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          hintText: '내용을 입력 하세요...',
+          hintStyle: TextStyle(color: Colors.grey),
+          filled: true,
+          fillColor: Colors.white,
         ),
-        hintText: '내용을 입력 하세요...',
-        hintStyle: TextStyle(color: Colors.grey),
-        filled: true,
-        fillColor: Colors.white,
+        controller: textEditingController,
       ),
-      controller: textEditingController,
     );
+  }
+
+  void _handleKeyPress(KeyEvent event) {
+    if (event is RawKeyDownEvent) {
+      if (event.logicalKey == LogicalKeyboardKey.backspace) {
+        print('Backspace key pressed!');
+      }
+      // Add other key handling if needed
+    }
   }
 }
