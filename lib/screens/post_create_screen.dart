@@ -65,6 +65,13 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
                             hintText: '제목',
                             hintStyle: TextStyle(color: Colors.grey),
                             filled: true,
@@ -114,7 +121,8 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   List<Widget> removeEmptyTextFields(List<Widget> dynamicWidgets) {
     dynamicWidgets = dynamicWidgets.where((widget) {
       if (widget is CustomTextField) {
-        return widget.textEditingController?.text.isNotEmpty ?? false;
+        final controllerText = widget.textEditingController.text.trim() ?? '';
+        return controllerText.isNotEmpty;
       }
       return true;
     }).toList();

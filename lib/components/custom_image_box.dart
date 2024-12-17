@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_image/flutter_image.dart';
 
 class CustomImageBox extends StatefulWidget {
   File? imageFile;

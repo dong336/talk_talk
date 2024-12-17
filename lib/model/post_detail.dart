@@ -21,8 +21,8 @@ class PostDetail {
         title: json['title'],
         category: json['category'],
         contents: json['contents'],
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt']
+        createdAt: json['created_at'],
+        updatedAt: json['updated_at']
     );
   }
 }
