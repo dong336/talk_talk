@@ -116,6 +116,11 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 onPressed: () {},
                 child: ListTile(
+                  trailing: Image.asset(
+                    'assets/logos/google_logo.png',
+                    width: 30,
+                    height: 30,
+                  ),
                   title: const Text('구글 로그인'),
                   onTap: () {
                     Navigator.pop(context);
@@ -132,6 +137,11 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 onPressed: () {},
                 child: ListTile(
+                  trailing: Image.asset(
+                    'assets/logos/kakao_logo.png',
+                    width: 30,
+                    height: 30,
+                  ),
                   title: const Text('카카오 로그인'),
                   onTap: () {
                     Navigator.pop(context);
