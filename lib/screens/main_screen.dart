@@ -73,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
                               child: const TextField(
                                 decoration: InputDecoration(
                                   hintText: '제목/카테고리/내용/작성자',
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   suffixIcon: Icon(Icons.search),
                                 ),
                               ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:talk_talk/components/custom_image_box.dart';
 import 'package:talk_talk/components/custom_text_field.dart';
 
 class PostCreateScreen extends StatefulWidget {
@@ -17,8 +18,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   ];
   List<TextEditingController> controllers = [];
   final ImagePicker _imagePicker = ImagePicker();
-  File? _imageFile;
-  Image? _imageWidget;
+  File? imageFile;
 
   @override
   void initState() {
@@ -66,6 +66,9 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: '제목',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            filled: true,
+                            fillColor: Colors.white,
                           ),
                         ),
                       ),
@@ -94,27 +97,11 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
         await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        _imageFile = File(image.path);
+        imageFile = File(image.path);
         print(image.name);
 
-        final index = dynamicWidgets.length;
-
         dynamicWidgets.add(
-          Center(
-            child: Stack(children: [
-              Image.file(
-                _imageFile!,
-                fit: BoxFit.fill,
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: IconButton(
-                    onPressed: () => _removeItem(index),
-                    icon: const Icon(Icons.close, color: Colors.red)),
-              )
-            ]),
-          ),
+          CustomImageBox(imageFile: imageFile),
         );
         dynamicWidgets = removeEmptyTextFields(dynamicWidgets);
         dynamicWidgets.add(
@@ -122,12 +109,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
         );
       });
     }
-  }
-
-  void _removeItem(int index) {
-    setState(() {
-      dynamicWidgets.removeAt(index);
-    });
   }
 
   List<Widget> removeEmptyTextFields(List<Widget> dynamicWidgets) {
