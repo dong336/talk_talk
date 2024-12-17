@@ -28,8 +28,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   void _handleKeyEvent(KeyEvent e) {
-    if (e.logicalKey == LogicalKeyboardKey.backspace
-        && 1 != _lineNumber) {
+    if (textEditingController.text.isEmpty
+        && e.logicalKey == LogicalKeyboardKey.backspace
+        && 1 != _lineNumber
+    ) {
       setState(() {
         _isVisible = false;
       });

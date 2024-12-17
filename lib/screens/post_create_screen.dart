@@ -120,17 +120,4 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
       });
     }
   }
-
-  // void _removeEmptyTextFields() {
-  //   for (int i = 0; i < dynamicWidgets.length; i++) {
-  //     final Widget widget = dynamicWidgets[i];
-  //
-  //     if (widget is CustomTextField) {
-  //       final controllerText = widget.textEditingController.text.trim();
-  //       if (controllerText.isEmpty && i != dynamicWidgets.length - 1) {
-  //         dynamicWidgets.removeAt(i);
-  //       }
-  //     }
-  //   }
-  // }
 }
