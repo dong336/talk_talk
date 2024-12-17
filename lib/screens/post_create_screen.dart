@@ -14,7 +14,7 @@ class PostCreateScreen extends StatefulWidget {
 
 class _PostCreateScreenState extends State<PostCreateScreen> {
   List<Widget> dynamicWidgets = [
-    CustomTextField(),
+    CustomTextField(isVisible: true, lineNumber: 1),
   ];
   List<TextEditingController> controllers = [];
   final ImagePicker _imagePicker = ImagePicker();
@@ -100,64 +100,37 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setState(() {
-      // removeEmptyTextFields();
-    });
-  }
-
   Future<void> _pickAndInsertImage() async {
     final XFile? image =
         await _imagePicker.pickImage(source: ImageSource.gallery);
-    print(image);
+
     if (image != null) {
       imageFile = File(image.path);
-      print(image.name);
       setState(() {
-        // for (int i = 0; i < dynamicWidgets.length; i++) {
-        //   final widget = dynamicWidgets[i];
-        //
-        //   if (widget is CustomTextField) {
-        //     final controllerText =
-        //         widget.textEditingController.text.trim() ?? '';
-        //     if (controllerText.isEmpty) {
-        //       dynamicWidgets.removeAt(i);
-        //     }
-        //   }
-        // }
-        // dynamicWidgets = dynamicWidgets.where((widget) {
-        //   if (widget is CustomTextField) {
-        //     final controllerText = widget.textEditingController.text.trim() ?? '';
-        //     return controllerText.isNotEmpty;
-        //   }
-        //   return true;
-        // }).toList();
-
         dynamicWidgets.add(
           CustomImageBox(imageFile: imageFile),
         );
 
         dynamicWidgets.add(
-          CustomTextField(),
+          CustomTextField(
+            isVisible: true,
+            lineNumber: dynamicWidgets.length + 1
+          ),
         );
-
-        removeEmptyTextFields();
       });
     }
   }
 
-  void removeEmptyTextFields() {
-    for (int i = 0; i < dynamicWidgets.length; i++) {
-      final Widget widget = dynamicWidgets[i];
-
-      if (widget is CustomTextField) {
-        final controllerText = widget.textEditingController.text.trim();
-        if (controllerText.isEmpty && i != dynamicWidgets.length - 1) {
-          dynamicWidgets.removeAt(i);
-        }
-      }
-    }
-  }
+  // void _removeEmptyTextFields() {
+  //   for (int i = 0; i < dynamicWidgets.length; i++) {
+  //     final Widget widget = dynamicWidgets[i];
+  //
+  //     if (widget is CustomTextField) {
+  //       final controllerText = widget.textEditingController.text.trim();
+  //       if (controllerText.isEmpty && i != dynamicWidgets.length - 1) {
+  //         dynamicWidgets.removeAt(i);
+  //       }
+  //     }
+  //   }
+  // }
 }
