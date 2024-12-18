@@ -45,7 +45,13 @@ class MainPost extends StatelessWidget {
         ),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          Navigator.pushNamed(context, '/post/detail');
+          Navigator.pushNamed(
+            context,
+            '/post/detail',
+            arguments: {
+              'postId': postSimple.id,
+            },
+          );
         },
       ),
     );
