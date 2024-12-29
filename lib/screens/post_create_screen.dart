@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:talk_talk/components/custom_image_box.dart';
@@ -13,10 +15,12 @@ class PostCreateScreen extends StatefulWidget {
 }
 
 class _PostCreateScreenState extends State<PostCreateScreen> {
+  TextEditingController titleController = TextEditingController();
+  List<Map<String, dynamic>> contents = [];
+
   List<Widget> dynamicWidgets = [
     CustomTextField(isVisible: true, lineNumber: 1),
   ];
-  List<TextEditingController> controllers = [];
   final ImagePicker _imagePicker = ImagePicker();
   File? imageFile;
 
@@ -46,7 +50,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                 ),
               ),
               onPressed: () {
-                print('등록 버튼 눌림');
+                _fetchCreatePost();
               },
               child: const Text('등록'),
             ),
@@ -60,11 +64,12 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(5),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: titleController,
+                          decoration: const InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -117,7 +122,34 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
             lineNumber: dynamicWidgets.length + 1
           ),
         );
+
+        dynamicWidgets.map((widget) {
+          if (widget is CustomTextField) {
+            // return {'type': 'text', 'value': widget.}
+          }
+        }).toList();
+
       });
+    }
+  }
+
+  Future<void> _fetchCreatePost() async {
+    final url = Uri.parse('https://localhost:8080/test');
+    final Map<String, dynamic> data = {
+      'title': titleController.value,
+      'contents': dynamicWidgets,
+    };
+
+    try {
+      await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print('post error');
     }
   }
 }
