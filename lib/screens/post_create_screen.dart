@@ -19,7 +19,10 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   List<Map<String, dynamic>> contents = [];
 
   List<Widget> dynamicWidgets = [
-    CustomTextField(isVisible: true, lineNumber: 1),
+    CustomTextField(
+        isVisible: true,
+        lineNumber: 1,
+        textEditingController: TextEditingController()),
   ];
   final ImagePicker _imagePicker = ImagePicker();
   File? imageFile;
@@ -116,19 +119,21 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
           CustomImageBox(imageFile: imageFile),
         );
 
+        // 비어있는 인풋은 자동삭제
+        dynamicWidgets = dynamicWidgets
+            .where((widget) =>
+                widget is CustomImageBox ||
+                widget is CustomTextField &&
+                    widget.textEditingController.text.isNotEmpty)
+            .toList();
+
         dynamicWidgets.add(
           CustomTextField(
             isVisible: true,
-            lineNumber: dynamicWidgets.length + 1
+            lineNumber: dynamicWidgets.length + 1,
+            textEditingController: TextEditingController(),
           ),
         );
-
-        dynamicWidgets.map((widget) {
-          if (widget is CustomTextField) {
-            // return {'type': 'text', 'value': widget.}
-          }
-        }).toList();
-
       });
     }
   }

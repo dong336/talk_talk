@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatefulWidget {
   int lineNumber;
   bool isVisible;
+  TextEditingController textEditingController;
 
   CustomTextField({
     super.key,
     required this.lineNumber,
     required this.isVisible,
+    required this.textEditingController,
   });
 
   @override
@@ -17,14 +19,15 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late int _lineNumber;
+  late TextEditingController textEditingController;
   bool _isVisible = true;
-  TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _lineNumber = widget.lineNumber;
     _isVisible = widget.isVisible;
+    textEditingController = widget.textEditingController;
   }
 
   void _handleKeyEvent(KeyEvent e) {
