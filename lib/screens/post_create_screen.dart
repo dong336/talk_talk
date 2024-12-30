@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:talk_talk/components/custom_image_box.dart';
-import 'package:talk_talk/components/custom_text_field.dart';
+import 'package:talk_talk/widgets/custom_image_box.dart';
+import 'package:talk_talk/widgets/custom_text_field.dart';
 
 class PostCreateScreen extends StatefulWidget {
   const PostCreateScreen({super.key});

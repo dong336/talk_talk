@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:talk_talk/utils/constants.dart' as constants;
-import 'package:talk_talk/components/main_post.dart';
+import 'package:talk_talk/widgets/main_drawer.dart';
+import 'package:talk_talk/widgets/main_post.dart';
 import 'package:talk_talk/model/post_simple.dart';
 
 class MainScreen extends StatefulWidget {
@@ -95,64 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: AppBar().preferredSize.height,
-              child: const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.pinkAccent,
-                ),
-                child: null,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(9.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                onPressed: () {},
-                child: ListTile(
-                  trailing: Image.asset(
-                    'assets/logos/google_logo.png',
-                    width: 30,
-                    height: 30,
-                  ),
-                  title: const Text('구글 로그인'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Handle Option 1 Click
-                  },
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(9.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                onPressed: () {},
-                child: ListTile(
-                  trailing: Image.asset(
-                    'assets/logos/kakao_logo.png',
-                    width: 30,
-                    height: 30,
-                  ),
-                  title: const Text('카카오 로그인'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Handle Option 1 Click
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: const MainDrawer(),
     );
   }
 
