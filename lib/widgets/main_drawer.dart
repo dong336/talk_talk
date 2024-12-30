@@ -76,7 +76,7 @@ class _MainDrawerState extends State<MainDrawer> {
     Navigator.pop(context);
   }
 
-  void signOut(LoginPlatform loginPlatform) async {
+  Future<void> signOut(LoginPlatform loginPlatform) async {
     switch (loginPlatform) {
       case LoginPlatform.google:
         await GoogleSignIn().signOut();
@@ -85,7 +85,7 @@ class _MainDrawerState extends State<MainDrawer> {
         await UserApi.instance.logout();
         break;
       case LoginPlatform.naver:
-        NaverLoginSDK.logout();
+        await NaverLoginSDK.logout();
         break;
       case LoginPlatform.none:
         break;
